@@ -11,6 +11,8 @@ public:
 	void GameLoop();
 	void ShutDown();
 
+	SDL_Texture *LoadTexture(char *path);
+
 private:
 	void HandleEvents() {}
 	void Update(); 
@@ -19,6 +21,9 @@ private:
 	bool isRunning;
 	SDL_Window *window = nullptr;
 	SDL_Renderer *renderer = nullptr;
+
+	SDL_Texture *wallTexture = nullptr;
+	SDL_Texture *groundTexture = nullptr;
 
 	class LevelManager* levelManager;
 	

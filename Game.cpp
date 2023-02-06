@@ -3,6 +3,7 @@
 #include <SDL2/SDL_error.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_image.h>
 #include "Utils.h"
 
 Game::Game() 
@@ -22,6 +23,11 @@ bool Game::Init()
 		return false;
 	}
 
+	if(IMG_Init(IMG_INIT_PNG) == 0) {
+		printf("SDL image failed to initialize Error: %s\n", IMG_GetError());
+		return false;
+	}
+
 	window = SDL_CreateWindow("SOKOBAN", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, SCREEN_WIDTH, SCREEN_HEIGHT, 0);
 
 	if( !window) {
@@ -38,6 +44,9 @@ bool Game::Init()
 
 	levelManager = new LevelManager();
 	levelManager->LoadLevel((char*)"level1.txt");
+
+	wallTexture = LoadTexture((char*)"assets/wall.png");
+	groundTexture = LoadTexture((char*)"assets/ground.png");
 	
 	return true;
 }
@@ -69,19 +78,30 @@ void Game::Draw() {
 				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
 			}*/
 			switch(levelManager->levelMap[c][r]) {
-			case 'X':
-				SDL_SetRenderDrawColor(renderer, 40, 40, 40, 255);
+			case 'O':
+				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 				break;
 			default:
-				SDL_SetRenderDrawColor(renderer, 255, 255, 255, 255);
+				SDL_RenderCopy(renderer, wallTexture, NULL, &rect);
 				break;
 			}
-			SDL_RenderFillRect(renderer, &rect);
-
 		}
 	}
 
 	SDL_RenderPresent(renderer);
 }
 
+SDL_Texture *Game::LoadTexture(char *path)
+{
+	SDL_Surface *tempSurface = IMG_Load(path);
+	if(tempSurface == NULL)
+		printf("Failed to load surface Error: %s\n", IMG_GetError());
 
+	SDL_Texture *newTexture = SDL_CreateTextureFromSurface(renderer, tempSurface);
+	if(newTexture == NULL)
+		printf("Failed to to convert to texture Error: %s\n", SDL_GetError());
+
+	SDL_FreeSurface(tempSurface);
+
+	return newTexture;
+}
