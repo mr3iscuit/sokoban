@@ -1,19 +1,18 @@
 #include "Game.h"
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_error.h>
+#include <SDL2/SDL_events.h>
 #include <SDL2/SDL_render.h>
+#include <SDL2/SDL_scancode.h>
 #include <SDL2/SDL_video.h>
 #include <SDL2/SDL_image.h>
 #include "Utils.h"
+#include "Player.h"
 
 Game::Game() 
 {
 	Init();
 	isRunning = true;
-}
-
-Game::~Game() {
-
 }
 
 bool Game::Init()
@@ -47,6 +46,8 @@ bool Game::Init()
 
 	wallTexture = LoadTexture((char*)"assets/wall.png");
 	groundTexture = LoadTexture((char*)"assets/ground.png");
+
+	player = new Player(this);
 	
 	return true;
 }
@@ -57,6 +58,7 @@ void Game::GameLoop() {
 		Update();
 		Draw();
 	}
+	ShutDown();
 }
 
 void Game::Update() {
@@ -88,6 +90,7 @@ void Game::Draw() {
 		}
 	}
 
+	player->Draw(renderer);
 	SDL_RenderPresent(renderer);
 }
 
@@ -105,3 +108,50 @@ SDL_Texture *Game::LoadTexture(char *path)
 
 	return newTexture;
 }
+
+void Game::ShutDown() {
+	SDL_DestroyTexture(wallTexture);
+	SDL_DestroyTexture(groundTexture);
+	SDL_DestroyRenderer(renderer);
+	SDL_DestroyWindow(window);
+	IMG_Quit();
+	SDL_Quit();
+}
+
+Game::~Game() {
+	ShutDown();
+}
+
+
+void Game::HandleEvents() 
+{
+	SDL_Event event;
+
+	while(SDL_PollEvent(&event)) {
+		if (event.type == SDL_QUIT) 
+			isRunning = false;
+		if(event.type == SDL_KEYDOWN)
+			switch (event.key.keysym.sym) {
+			case SDLK_RIGHT:
+				player->Move(1, 0);
+				break;
+			case SDLK_LEFT:
+				player->Move(-1, 0);
+				break;
+			case SDLK_DOWN:
+				player->Move(0, 1);
+				break;
+			case SDLK_UP:
+				player->Move(0, -1);
+			default:
+				break;
+			}
+	}
+
+	const Uint8 *keystates = SDL_GetKeyboardState(NULL);
+
+	if(keystates[SDL_SCANCODE_ESCAPE]) 
+		isRunning = false;
+
+}
+

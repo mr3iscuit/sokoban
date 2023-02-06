@@ -14,7 +14,7 @@ public:
 	SDL_Texture *LoadTexture(char *path);
 
 private:
-	void HandleEvents() {}
+	void HandleEvents(); 
 	void Update(); 
 	void Draw(); 
 
@@ -26,5 +26,6 @@ private:
 	SDL_Texture *groundTexture = nullptr;
 
 	class LevelManager* levelManager;
+	class Player *player;
 	
 };
