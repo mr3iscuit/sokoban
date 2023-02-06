@@ -8,6 +8,7 @@
 #include <SDL2/SDL_image.h>
 #include "Utils.h"
 #include "Player.h"
+#include "Box.h"
 
 Game::Game() 
 {
@@ -48,8 +49,39 @@ bool Game::Init()
 	groundTexture = LoadTexture((char*)"assets/ground.png");
 
 	player = new Player(this);
+	box = new Box(this);
+	int c = 0, r = 0;
+	for(r = 0; r < TILE_ROWS; r++)
+		for(c = 0; c < TILE_COLS; c++) 
+			switch(levelManager->levelMap[c][r]) {
+			case 'P':
+				player->move(c, r);
+				break;
+			case 'B':
+				box->move(c, r);
+				break;
+			default:
+				break;
+			}
 	
 	return true;
+}
+
+bool Game::hitWall(int x, int y)
+{
+	return levelManager->levelMap[x][y] == 'X';
+}
+
+bool Game::hitBox(int x, int y)
+{
+	Vec2 boxPos = box->getPos();
+	Vec2 playerPos = player->getPos();
+	return boxPos.x == x and boxPos.y == y;
+}
+
+bool Game::moveBox(int x, int y)
+{
+	return box->relativeMove(x, y);
 }
 
 void Game::GameLoop() {
@@ -81,6 +113,8 @@ void Game::Draw() {
 			}*/
 			switch(levelManager->levelMap[c][r]) {
 			case 'O':
+			case 'P':
+			case 'B':
 				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
 				break;
 			default:
@@ -90,6 +124,7 @@ void Game::Draw() {
 		}
 	}
 
+	box->Draw(renderer);
 	player->Draw(renderer);
 	SDL_RenderPresent(renderer);
 }
@@ -133,16 +168,16 @@ void Game::HandleEvents()
 		if(event.type == SDL_KEYDOWN)
 			switch (event.key.keysym.sym) {
 			case SDLK_RIGHT:
-				player->Move(1, 0);
+				player->relativeMove(1, 0);
 				break;
 			case SDLK_LEFT:
-				player->Move(-1, 0);
+				player->relativeMove(-1, 0);
 				break;
 			case SDLK_DOWN:
-				player->Move(0, 1);
+				player->relativeMove(0, 1);
 				break;
 			case SDLK_UP:
-				player->Move(0, -1);
+				player->relativeMove(0, -1);
 			default:
 				break;
 			}

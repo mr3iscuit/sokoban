@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Entity.h"
+#include "EntityWithCollision.h"
 
-class Player : public Entity {
+class Player : public EntityWithCollision {
 public:
-	Player(class Game *game) : Entity(game, (char*)"assets/player.png") {}
+	Player(class Game *game) : EntityWithCollision(game, (char*)"assets/player.png") {}
 private:
 };

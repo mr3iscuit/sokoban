@@ -20,9 +20,11 @@ public:
 	}
 
 	void Draw(SDL_Renderer *renderer);
-	void Move(int x, int y);
+	void relativeMove(int x, int y);
+	void move(int x, int y); 
+	Vec2 getPos();
 
-private:
+protected:
 	Vec2 pos;
 	SDL_Texture *texture;
 	SDL_Rect posRect, spriteRect;

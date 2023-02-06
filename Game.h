@@ -1,4 +1,5 @@
 #pragma once
+#include <vector>
 
 #include "Utils.h"
 #include "LevelManager.h"
@@ -10,6 +11,9 @@ public:
 	bool Init();
 	void GameLoop();
 	void ShutDown();
+	bool hitWall(int x, int y);
+	bool hitBox(int x, int y);
+	bool moveBox(int x, int y);
 
 	SDL_Texture *LoadTexture(char *path);
 
@@ -27,5 +31,7 @@ private:
 
 	class LevelManager* levelManager;
 	class Player *player;
+	class Box *box;
+	std::vector<Box> boxes;
 	
 };
