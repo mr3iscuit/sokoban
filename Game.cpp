@@ -47,18 +47,17 @@ bool Game::Init()
 
 	wallTexture = LoadTexture((char*)"assets/wall.png");
 	groundTexture = LoadTexture((char*)"assets/ground.png");
+	goldTexture = LoadTexture((char*)"assets/gold.png");
+	boxTexture = LoadTexture((char*)"assets/box.png");
+	
 
 	player = new Player(this);
-	box = new Box(this);
 	int c = 0, r = 0;
 	for(r = 0; r < TILE_ROWS; r++)
 		for(c = 0; c < TILE_COLS; c++) 
 			switch(levelManager->levelMap[c][r]) {
 			case 'P':
 				player->move(c, r);
-				break;
-			case 'B':
-				box->move(c, r);
 				break;
 			default:
 				break;
@@ -74,14 +73,20 @@ bool Game::hitWall(int x, int y)
 
 bool Game::hitBox(int x, int y)
 {
-	Vec2 boxPos = box->getPos();
-	Vec2 playerPos = player->getPos();
-	return boxPos.x == x and boxPos.y == y;
+	return levelManager->levelMap[x][y] == 'B';
 }
 
-bool Game::moveBox(int x, int y)
+bool Game::pushBox(int moveX, int moveY, int pX, int pY) 
 {
-	return box->relativeMove(x, y);
+	int newBoxX = pX + moveX;
+	int newBoxY = pY + moveY;
+
+	if(hitWall(newBoxX, newBoxY) or hitBox(newBoxX, newBoxY)) return false;
+
+	levelManager->levelMap[pX][pY] = 'O';
+	levelManager->levelMap[newBoxX][newBoxY] = 'B';
+
+	return true;
 }
 
 void Game::GameLoop() {
@@ -114,8 +119,14 @@ void Game::Draw() {
 			switch(levelManager->levelMap[c][r]) {
 			case 'O':
 			case 'P':
-			case 'B':
 				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
+				break;
+			case 'B':
+				SDL_RenderCopy(renderer, boxTexture, NULL, &rect); 
+				break;
+			case 'G':
+				SDL_RenderCopy(renderer, groundTexture, NULL, &rect);
+				SDL_RenderCopy(renderer, goldTexture, NULL, &rect); 
 				break;
 			default:
 				SDL_RenderCopy(renderer, wallTexture, NULL, &rect);
@@ -124,7 +135,6 @@ void Game::Draw() {
 		}
 	}
 
-	box->Draw(renderer);
 	player->Draw(renderer);
 	SDL_RenderPresent(renderer);
 }

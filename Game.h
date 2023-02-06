@@ -13,7 +13,7 @@ public:
 	void ShutDown();
 	bool hitWall(int x, int y);
 	bool hitBox(int x, int y);
-	bool moveBox(int x, int y);
+	bool pushBox(int moveX, int moveY, int pX, int pY);
 
 	SDL_Texture *LoadTexture(char *path);
 
@@ -28,10 +28,9 @@ private:
 
 	SDL_Texture *wallTexture = nullptr;
 	SDL_Texture *groundTexture = nullptr;
+	SDL_Texture *goldTexture = nullptr;
+	SDL_Texture *boxTexture = nullptr;
 
 	class LevelManager* levelManager;
 	class Player *player;
-	class Box *box;
-	std::vector<Box> boxes;
-	
 };
