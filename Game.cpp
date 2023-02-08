@@ -198,5 +198,3 @@ void Game::HandleEvents()
 		isRunning = false;
 
 }
-
-dev
