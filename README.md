@@ -20,8 +20,6 @@
     <a href="https://github.com/mr3biscuit/sokoban"><strong>Explore the docs »</strong></a>
     <br />
     <br />
-    <a href="https://github.com/mr3iscuit/sokoban">View Demo</a>
-    ·
     <a href="https://github.com/mr3iscuit/sokoban/issues">Report Bug</a>
     ·
     <a href="https://github.com/mr3iscuit/sokoban/issues">Request Feature</a>
