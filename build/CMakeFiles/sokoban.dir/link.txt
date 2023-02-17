@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/sokoban.dir/Entity.cpp.o CMakeFiles/sokoban.dir/EntityWithCollision.cpp.o CMakeFiles/sokoban.dir/Game.cpp.o CMakeFiles/sokoban.dir/LevelManager.cpp.o CMakeFiles/sokoban.dir/main.cpp.o -o sokoban  -lSDL2 -lSDL2_image -lSDL2_ttf 

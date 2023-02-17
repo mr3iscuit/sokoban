@@ -1,0 +1,5 @@
+/home/biscuit/Documents/projects/sokoban/build/CMakeFiles/copy_assets.dir
+/home/biscuit/Documents/projects/sokoban/build/CMakeFiles/copy_levels.dir
+/home/biscuit/Documents/projects/sokoban/build/CMakeFiles/sokoban.dir
+/home/biscuit/Documents/projects/sokoban/build/CMakeFiles/edit_cache.dir
+/home/biscuit/Documents/projects/sokoban/build/CMakeFiles/rebuild_cache.dir

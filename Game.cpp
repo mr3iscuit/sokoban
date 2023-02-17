@@ -42,7 +42,7 @@ bool Game::Init()
 	}
 
 	levelManager = new LevelManager();
-	levelManager->LoadLevel((char*)"level1.txt");
+	levelManager->LoadLevel((char*)"./levels/level1.txt");
 
 	wallTexture = LoadTexture((char*)"assets/wall.png");
 	groundTexture = LoadTexture((char*)"assets/ground.png");
