@@ -77,7 +77,6 @@ Here's a blank template to get started: To avoid retyping too much info. Do a se
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
 * arch linux based distro
   ```sh
    pacman -Syu
