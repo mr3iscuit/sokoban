@@ -84,6 +84,12 @@ This is an example of how to list things you need to use the software and how to
    pacman -S sdl2 sdl2_ttf sdl2_image
    pacman -S base-devel cmake
   ```
+  * ubuntu linux based distro
+  ```sh
+   sudo update
+   apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev
+   apt install cmake make 
+  ```
 
 ### Installation
 
