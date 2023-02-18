@@ -86,7 +86,7 @@ This is an example of how to list things you need to use the software and how to
   ```
   * ubuntu linux based distro
   ```sh
-   sudo update
+   apt update
    apt install libsdl2-dev libsdl2-ttf-dev libsdl2-image-dev
    apt install cmake make 
   ```
